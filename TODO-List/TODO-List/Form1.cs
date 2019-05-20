@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
-
 namespace TODO_List
 {
     /// <summary>
@@ -51,7 +50,16 @@ namespace TODO_List
         void RemoveContent(ListBox listBox, string filePath, object selectedItem)
         {
             listBox.Items.Remove(selectedItem);
-            File.WriteAllText(filePath, File.ReadAllText(filePath).Replace(selectedItem.ToString() + "\n", null));
+            File.WriteAllText(filePath, ReplaceFirst(File.ReadAllText(filePath), selectedItem.ToString() + "\n", null));
+        }
+        public string ReplaceFirst(string text, string search, string replace)
+        {
+            int pos = text.IndexOf(search);
+            if (pos < 0)
+            {
+                return text;
+            }
+            return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
         }
         void AddContent(ListBox listBox, string filePath, string content)
         {
